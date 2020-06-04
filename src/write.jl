@@ -1,8 +1,14 @@
 """
-This module provides a function to convert a CSV file containning a matrix of data
-into Helium binary file format
+**`Helium.writehe`** -*Function*.
 
-    Helium.csv2he(file) => file
+    Helium.writehe(source, matrix) => file
+
+Write a matrix (2D array) to a binary .he file, given as an IO argument or
+String/FilePaths.jl type representing the file name to write. The binary files
+Helium format includes a header that describes the size and the data type of
+the matrix, as well as the endianness of the file.
+The first 32 bytes contains:
+[number of rows, number of columns, data type, endianness]
 
 """
 

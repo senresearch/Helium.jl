@@ -1,8 +1,11 @@
 """
-This module provides a function to convert a CSV file containning a matrix of data
-into Helium binary file format
+**`Helium.csv2he`** -*Function*.
 
-    Helium.csv2he(file) => file
+    Helium.csv2he(source, DataType) => file
+
+Convert a CSV file that conatains a matrix into the Helium binary file format.
+The function first evaluate the siaze of the matrix, then read the data and save
+it in Helium format.
 
 """
 

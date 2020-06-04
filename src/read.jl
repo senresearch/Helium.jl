@@ -1,8 +1,14 @@
 """
-This module provides a function to convert a CSV file containning a matrix of data
-into Helium binary file format
+**`Helium.readhe`** -*Function*.
 
-    Helium.readhe(file) => Matrix
+    Helium.readhe(source) => Matrix
+
+Parse a binary file into a matrix. The binary files .he format includes a
+header that describes the size and the data type of the matrix, as well as the
+endianness of the file.
+The first 32 bytes contains:
+[number of rows, number of columns, data type, endianness]
+
 
 """
 

@@ -14,6 +14,8 @@ The first 32 bytes contains:
 
 function readhe(heFile::String)
 
+        heFile = string(heFile, "/", basename(heFile))
+
         # Generate dictionnary for reading type and endianness
         dictCtrl =  Dict("f64"=>Float64,
                     "e64"=>Int64,

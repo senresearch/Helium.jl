@@ -13,6 +13,18 @@ The first 32 bytes contains:
 """
 
 function writehe(heFile::String, mat)
+
+    # Check name ending by .he
+    if heFile[end-2:end] != ".he"
+       heFile = string(heFile, ".he")
+    end
+
+    # Create helium format directory
+    if !isdir(heFile)
+       mkdir(heFile)
+    end
+    heFile = string(heFile, "/", basename(heFile))
+
     # Create a dictionnary to map size, data type and endianness in integer
     dictCtrl =  Dict("Float64"=>Int64(0xf64),
                      "Int64"=>Int64(0xe64),

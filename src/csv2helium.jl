@@ -91,13 +91,13 @@ function getmat(csvFile::String, matType::DataType,
 
         if !isRowNames
             while !eof(io)
-                myLine = split(readline(io), ",")
+                myLine = split(replace(readline(io), r"NA|MISSING"i => "NaN"), ",")
                 global i += 1
                 global mat[i, :] = parse.(matType, myLine)
             end
         else
             while !eof(io)
-                myLine = split(readline(io), ",")
+                myLine = split(replace(readline(io), r"NA|MISSING"i => "NaN"), ",")
                 global i += 1
                 global rowNames[i] = myLine[1]
                 myLine = myLine[2:end]

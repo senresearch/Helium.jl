@@ -23,7 +23,7 @@ function writehe(heFile::String, mat)
     if !isdir(heFile)
        mkdir(heFile)
     end
-    heFile = string(heFile, "/", basename(heFile))
+    heFile = string(heFile, "/", basename(heFile)[1:end-3], ".dat")
 
     # Create a dictionnary to map size, data type and endianness in integer
     dictCtrl =  Dict("Float64"=>Int64(0xf64),

@@ -14,7 +14,7 @@ The first 32 bytes contains:
 
 function readhe(heFile::String)
 
-        heFile = string(heFile, "/", basename(heFile))
+        heFile = string(heFile, "/",  basename(heFile)[1:end-3], ".dat")
 
         # Generate dictionnary for reading type and endianness
         dictCtrl =  Dict("f64"=>Float64,

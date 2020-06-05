@@ -46,7 +46,8 @@ function csv2he(csvFile::String, matType::DataType;
             writedlm(io, rowNames, ',')
         end
     end
-
+    println("Location of the Helium directory:")
+    println(realpath(heFile))
 end
 
 

@@ -18,7 +18,7 @@ include("write.jl")
 include("read.jl")
 
 export write
-export read
+export read, getcolnames, getrownames
 export csv2he
 
 

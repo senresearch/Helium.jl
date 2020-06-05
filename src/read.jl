@@ -1,7 +1,7 @@
 """
 **`Helium.readhe`** -*Function*.
 
-    Helium.readhe(source) => Matrix
+    `Helium.readhe(source)` => `Matrix`
 
 Parse a binary file into a matrix. The binary files .he format includes a
 header that describes the size and the data type of the matrix, as well as the
@@ -46,4 +46,52 @@ function readhe(heFile::String)
         end
 
         return mat
+end
+
+
+"""
+**`Helium.getcolnames`** -*Function*.
+
+    `Helium.getcolnames(source)` => `Array{String, 2}`
+
+Return an array of string containing the column names of the original CSV files.
+
+"""
+function getcolnames(heFile::String)
+
+        fileName =realpath(string(heFile, "/", basename(heFile)[1:end-3], "_colnames.csv"))
+
+        if isfile(fileName)
+            open(fileName, "r") do io
+               global colNames = readdlm(io,',', String)
+            end
+        else
+            println("Column names file does not exist!!!!")
+        end
+
+        return colNames[:,1]
+end
+
+
+"""
+**`Helium.getrownames`** -*Function*.
+
+    `Helium.getrownames(source)` => `Array{String, 2}`
+
+Return an array of string containing the row names of the original CSV files.
+
+"""
+function getrownames(heFile::String)
+
+        fileName =realpath(string(heFile, "/", basename(heFile)[1:end-3], "_rownames.csv"))
+
+        if isfile(fileName)
+            open(fileName, "r") do io
+               global rowNames = readdlm(io,',', String)
+            end
+        else
+            println("Row names file does not exist!!!!")
+        end
+
+        return rowNames[:,1]
 end

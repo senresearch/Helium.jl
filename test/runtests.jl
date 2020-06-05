@@ -103,3 +103,31 @@ testmat = [
  else
        println("Test 3: Something went wrong during conversion!")
  end
+
+ #####################################
+ # Test Getting column and row names #
+ #####################################
+
+# Get column names
+ colnames = Helium.getcolnames(fileName);
+ println("Column names:")
+ println.(colnames);
+
+ if colnames == string.(testmat[1,2:end])
+       println("Getting column names is a success!")
+ else
+       println("Test col names: Something went wrong during conversion!")
+ end
+
+
+
+# Get row names
+ rownames = Helium.getrownames(fileName);
+ println("Row names:")
+ println.(rownames);
+
+ if rownames == string.(testmat[2:end, 1])
+      println("Getting row names is a success!")
+ else
+      println("Test row names: Something went wrong during conversion!")
+ end

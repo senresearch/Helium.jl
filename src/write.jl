@@ -1,7 +1,7 @@
 """
 **`Helium.writehe`** -*Function*.
 
-    Helium.writehe(source, matrix) => file
+    `Helium.writehe(source, matrix)` => `file`
 
 Write a matrix (2D array) to a binary .he file, given as an IO argument or
 String/FilePaths.jl type representing the file name to write. The binary files

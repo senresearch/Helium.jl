@@ -97,7 +97,8 @@ In this example, we consider a simple CSV file without column names and without 
 ```julia
 julia> using Helium
 
-julia> Helium.csv2he("~/Project/data/testFile.csv", "~/Project/data/testFile.he", Float64, hasColNames = false)
+julia> Helium.csv2he("~/Project/data/testFile.csv", "~/Project/data/testFile.he", Float64,
+       hasColNames = false)
 
 julia> Helium.readhe("~/Project/data/testFile.he")       
 2×4 Array{Float64,2}:
@@ -119,7 +120,8 @@ In the next example, we consider a CSV file that includes the column names and t
 ```julia
 julia> using Helium
 
-julia> Helium.csv2he("~/Project/data/testFile.csv", "~/Project/data/testFile.he", Float64, hasRowNames = true)
+julia> Helium.csv2he("~/Project/data/testFile.csv", "~/Project/data/testFile.he", Float64,
+       hasRowNames = true)
 
 julia> Helium.readhe("~/Project/data/testFile.he")
 2×4 Array{Float64,2}:
@@ -158,7 +160,8 @@ Next, we give an example where we specify what string corresponds to a missing d
 ```julia
 julia> using Helium
 
-julia> Helium.csv2he("~/Project/data/testFile.csv", "~/Project/data/testFile.he", Float64, hasColNames = false,  strMiss = "X")
+julia> Helium.csv2he("~/Project/data/testFile.csv", "~/Project/data/testFile.he", Float64,
+       hasColNames = false,  strMiss = "X")
 
 julia> Helium.readhe("~/Project/data/testFile.he")   
 2×5 Array{Float64,2}:
@@ -179,7 +182,8 @@ The argument `skipCol` gives the option to skip an arbitrary number of columns b
 ```julia
 julia> using Helium
 
-julia> Helium.csv2he("~/Project/data/testFile.csv", "~/Project/data/testFile.he", Float64, hasRowNames = true, strMiss = "x", skipCol = 1)
+julia> Helium.csv2he("~/Project/data/testFile.csv", "~/Project/data/testFile.he", Float64,
+       hasRowNames = true, strMiss = "x", skipCol = 1)
 
 julia> Helium.readhe("~/Project/data/testFile.he")   
 2×5 Array{Float64,2}:

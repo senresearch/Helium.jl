@@ -9,6 +9,8 @@
 
 /test/data/*.csv
 /test/data/*.he
+/test/data/*.dat
+/test/data/testDir.he/
 
 *~
 *.pdf

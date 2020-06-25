@@ -1,7 +1,7 @@
 """
 **`Helium.writehe`** -*Function*.
 
-    `Helium.writehe(source, matrix)` => `file`
+    `Helium.writehe( matrix, source)` => `file`
 
 Write a matrix (2D array) to a binary .he file, given as an IO argument or
 String/FilePaths.jl type representing the file name to write. The binary files
@@ -12,7 +12,7 @@ The first 32 bytes contains:
 
 """
 
-function writehe(heFile::String, mat)
+function writehedir(mat, heFile::String)
 
     # Check name ending by .he
     if heFile[end-2:end] != ".he"
@@ -25,7 +25,7 @@ function writehe(heFile::String, mat)
     end
     heFile = string(heFile, "/", basename(heFile)[1:end-3], ".dat")
 
-    # Create a dictionnary to map size, data type and endianness in integer
+    # Create a dictionary to map size, data type and endianness in integer
     dictCtrl =  Dict("Float64"=>Int64(0xf64),
                      "Int64"=>Int64(0xe64),
                      "Float32"=>Int64(0xf32),
@@ -45,7 +45,7 @@ function writehe(heFile::String, mat)
 
     # Create the header of the binary file
     matCtrl = [size(mat)[1] size(mat)[2] dictCtrl[dataType] dictCtrl[endianness]]
-    matCtrl = convert(Array{Float64}, matCtrl)
+    matCtrl = convert(Array{Int64}, matCtrl)
 
     # Write header
     open(heFile, "w") do file
@@ -55,5 +55,15 @@ function writehe(heFile::String, mat)
     open(heFile, "a") do file
              write(file, mat)
     end
+
+    fileInfo = string(dirname(heFile), "/README.txt")
+    info = string("Rows: ", matCtrl[1], "\n",
+                  "Columns: ", matCtrl[2], "\n",
+                  "Type: ", dataType, "\n",
+                  "Endianness :", endianness, "\n")
+    open(fileInfo, "w") do io
+        write(io, info)
+    end
+
 
 end

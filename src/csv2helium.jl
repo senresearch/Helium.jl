@@ -1,113 +1,92 @@
 """
 **`Helium.csv2he`** -*Function*.
 
-    `Helium.csv2he(source, DataType; isHeader::Bool=true, isRowNames::Bool=false)` => `file`
+    `Helium.csv2he(source, outputFile, DataType; hasColNames::Bool=true,
+                   hasRowNames::Bool=false, strMiss::String = "na")` => `file`
 
-Convert a CSV file that conatains a matrix into the Helium binary file format.
-The function first evaluate the siaze of the matrix, then read the data and save
-it in Helium format. If there are not column names, set `isHeader = false`. If
+Convert a CSV file that contains a matrix into the Helium binary file format.
+The function first evaluate the size of the matrix, then read the data and save
+it in Helium format. If no output path is provided then a Helium file will be
+created with the same CSV file name.
+If there are not column names, set `isHeader = false`. If
 there are row names, set `isRowNames = true`.
 
 """
+function csv2he(csvFile::String, heFile::String, matType::DataType;
+                hasColNames::Bool=true, hasRowNames::Bool=false,
+                strMiss::String="na", skipCol::Int64 =0)
 
-function csv2he(csvFile::String, matType::DataType;
-                isHeader::Bool=true, isRowNames::Bool=false)
-    # Get the number of columns
-    frstRow = readline(csvFile)
-    numCols = length(split(frstRow, ","))
+    # HeInfo constructor
+    he = HeInfo(abspath(csvFile), matType, 1, 1,
+                hasColNames, hasRowNames,
+                strMiss, skipCol)
 
-    # Get the number of rows
-    global numRows = 0
-    open(csvFile) do io
-        while !eof(io)
-            readline(io)
-            numRows += 1
-        end
-    end
+    # Convert CSV to matrix
+    mat, cNames, rNames, supp = csv2mat(he)
 
-    # Get matrix
-    mat, hdr, rowNames = getmat(csvFile, matType,
-                                numRows, numCols,
-                                isHeader, isRowNames)
+    writehe(mat, heFile, colNames = cNames, rowNames = rNames, supplement = supp)
 
-    heFile = string(csvFile[1:end-3], "he")
-    writehe(heFile, mat)
-
-    if isHeader
-        csvColNames = string(heFile, "/", basename(heFile)[1:end-3], "_colnames.csv")
-        open(csvColNames, "w") do io
-            writedlm(io, hdr, ',')
-        end
-    end
-
-    if isRowNames
-        csvRowNames = string(heFile, "/", basename(heFile)[1:end-3], "_rownames.csv")
-        open(csvRowNames, "w") do io
-            writedlm(io, rowNames, ',')
-        end
-    end
-    println("Location of the Helium directory:")
-    println(realpath(heFile))
 end
 
 
 """
-**`Helium.getmat`** -*Function*.
+**`Helium.csv2he`** -*Function*.
 
-    `Helium.getmat(source, DataType, numRows::Int64, numCols::Int64,
-    isHeader::Bool, isRowNames::BoolnumRows)` => `matrix, column names, row names`
+    `Helium.csv2he(source, DataType; hasColNames::Bool=true,
+                   hasRowNames::Bool=false, strMiss::String = "na")` => `file`
 
-Read the data matrix and extract column and row names if they exist.
+Convert a CSV file that contains a matrix into the Helium binary file format.
+The function first evaluate the size of the matrix, then read the data and save
+it in Helium format. If no output path is provided then a Helium file will be
+created with the same CSV file name.
+If there are not column names, set `hasColNames = false`. If
+there are row names, set `hasRowNames = true`.
 
 """
-function getmat(csvFile::String, matType::DataType,
-                numRows::Int64, numCols::Int64,
-                isHeader::Bool, isRowNames::Bool)
+function csv2he(csvFile::String, matType::DataType;
+                hasColNames::Bool=true, hasRowNames::Bool=false,
+                strMiss::String = "na", skipCol::Int64 =0)
 
-    if isHeader
-        numRows -= 1
-    end
+    heFile = string(csvFile[1:end-3], "he")
 
-    if isRowNames
-        numCols -= 1
-    end
+    csv2he(csvFile, heFile, matType,
+                    hasColNames = hasColNames, hasRowNames = hasRowNames,
+                    strMiss = strMiss, skipCol = skipCol)
 
-    # Pre-allocation
-    mat = Array{matType}(undef, numRows, numCols)
-    if isRowNames
-        rowNames = Array{String}(undef, numRows, 1)
-    else
-        rowNames = nothing
-    end
+    println("Location of the Helium file:")
+    println(realpath(heFile))
+end
 
-    # Fill the matrix
-    global i = 0
-    open(csvFile) do io
+"""
+**`Helium.csv2mat`** -*Function*.
 
-        if isHeader
-            global hdr = split(readline(io), ",")
-        else
-            global hdr = nothing
+    `Helium.csv2mat(HeAttributes)` => `matrix, column names, row names`
+
+Extract data matrix, column and row names from a CSV file.
+The function first evaluate the size of the matrix, then read the data.
+If there are not column names, set `hasColNames = false`. If
+there are row names, set `hasRowNames = true`.
+
+"""
+function csv2mat(he::HeAttributes)
+
+    # Get the number of columns
+    frstRow = readline(he.fileName)
+    he.numCols = length(split(frstRow, ","))
+
+    # Get the number of rows
+    global nRows = 0
+    open(he.fileName) do io
+        while !eof(io)
+            readline(io)
+            nRows += 1
         end
-
-        if !isRowNames
-            while !eof(io)
-                myLine = split(replace(readline(io), r"x|NA|MISSING"i => "NaN"), ",")
-                global i += 1
-                global mat[i, :] = parse.(matType, myLine)
-            end
-        else
-            while !eof(io)
-                myLine = split(replace(readline(io), r"x|NA|MISSING"i => "NaN"), ",")
-                global i += 1
-                global rowNames[i] = myLine[1]
-                myLine = myLine[2:end]
-                global mat[i, :] = parse.(matType, myLine)
-            end
-            hdr = hdr[2:end]
-        end
-
     end
+    he.numRows = nRows
 
-    return mat, hdr, rowNames
+    # Get matrix
+    mat, colNames, rowNames, matXtra = Dict(true=>getmat,
+                                            false=>getskipmat)[he.skipCol == 0](he)
+    return mat, colNames, rowNames, matXtra
+
 end

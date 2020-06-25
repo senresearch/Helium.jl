@@ -13,13 +13,34 @@ module Helium
 
 using DelimitedFiles
 
-include("csv2helium.jl")
-include("write.jl")
-include("read.jl")
 
-export write
-export read, getcolnames, getrownames
-export csv2he
+include("he.jl")
+export HeAttributes
+export HeInfo
+
+include("writehe.jl")
+export writehe
+
+include("readhe.jl")
+export readhe, getcolnames, getrownames, getsupp, readheader
+
+include("csv2helium.jl")
+export csv2he, csv2mat
+
+include("xtract.jl")
+export getskipmat, getmat
+
+include("writehedir.jl")
+export writehedir
+
+include("readhedir.jl")
+export readhedir, getcolnamesdir, getrownamesdir, getsuppdir
+
+include("csv2heliumdir.jl")
+export csv2hedir
+
+
+
 
 
 end # module

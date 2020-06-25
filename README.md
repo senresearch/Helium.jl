@@ -183,7 +183,7 @@ The argument `skipCol` gives the option to skip an arbitrary number of columns b
 julia> using Helium
 
 julia> Helium.csv2he("~/Project/data/testFile.csv", "~/Project/data/testFile.he", Float64,
-       hasRowNames = true, strMiss = "x", skipCol = 1)
+       hasRowNames = true, strMiss = "x", skipCol = 2)
 
 julia> Helium.readhe("~/Project/data/testFile.he")   
 2×5 Array{Float64,2}:

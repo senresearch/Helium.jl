@@ -30,6 +30,9 @@ export csv2he, csv2mat
 include("xtract.jl")
 export getskipmat, getmat
 
+include("helium2csv.jl")
+export he2csv
+
 include("writehedir.jl")
 export writehedir
 

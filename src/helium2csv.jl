@@ -2,7 +2,8 @@
 **`Helium.he2csv`** -*Function*.
 
     `Helium.he2csv(source, outputFile, DataType;
-                   strMiss::String = "NaN", nameColRows::String="ID")` => `file`
+                   strMiss::String = "NaN", nameColRows::String="ID",
+                   sep::String = ",")` => `file`
 
 Convert a Helium binary file into a CSV format.
 The function gather all information from the helium file to generate a CSV file.
@@ -12,7 +13,8 @@ It is possible to map the `NaN` elements of the matrx into a new string,
 
 """
 function he2csv(heFile::String, csvFile::String;
-                strMiss::String="NaN", nameColRows::String="ID")
+                strMiss::String="NaN", nameColRows::String="ID",
+                sep::String=",")
 
     # Get header helium dimension
     hdrHe = Helium.readheader(heFile)
@@ -50,7 +52,7 @@ function he2csv(heFile::String, csvFile::String;
 
     # Helium to CSV
     open(csvFile, "w") do io
-             writedlm(io, csvTab, ',')
+             writedlm(io, csvTab, sep[1])
     end
 
 end

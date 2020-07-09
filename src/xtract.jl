@@ -44,7 +44,7 @@ function getmat(he::HeAttributes)
     open(he.fileName) do io
 
         if he.hasColNames
-            global colNames = split(readline(io), ",")
+            global colNames = split(readline(io), he.sep)
         else
             global colNames = [""]
         end
@@ -52,7 +52,7 @@ function getmat(he::HeAttributes)
         if he.hasRowNames
             while !eof(io)
                 tmp = [readline(io)]
-                newLine = eval(Meta.parse(string("""rslt=split(replace($tmp[1], r"$(he.strMiss)|NA|MISSING"i => "NaN"), ",")""")))
+                newLine = eval(Meta.parse(string("""rslt=split(replace($tmp[1], r"$(he.strMiss)|NA|MISSING"i => "NaN"), "$(he.sep)")""")))
                 global i += 1
                 global rowNames[i] = newLine[1]
                 global mat[i, :] = parse.(he.matType, newLine[2:end])
@@ -63,7 +63,7 @@ function getmat(he::HeAttributes)
         else
             while !eof(io)
                 tmp = [readline(io)]
-                newLine = eval(Meta.parse(string("""rslt=split(replace($tmp[1], r"$(he.strMiss)|NA|MISSING"i => "NaN"), ",")""")))
+                newLine = eval(Meta.parse(string("""rslt=split(replace($tmp[1], r"$(he.strMiss)|NA|MISSING"i => "NaN"), "$(he.sep)")""")))
                 global i += 1
                 global mat[i, :] = parse.(he.matType, newLine[1:end])
             end
@@ -132,7 +132,7 @@ function getskipmat(he::HeAttributes)
     open(he.fileName) do io
 
         if he.hasColNames
-            global colNames = string.(split(readline(io), ",")[:])
+            global colNames = string.(split(readline(io), he.sep)[:])
             global matXtra[1, :] = colNames[(1+he.hasRowNames):idxEndXtra]
             colNames = colNames[idxStartMat:end]
         else
@@ -144,7 +144,7 @@ function getskipmat(he::HeAttributes)
                 global i += 1
 
                 tmp = [readline(io)]
-                tmp = split(tmp[1], ",")
+                tmp = split(tmp[1], he.sep)
 
                 global rowNames[i] = tmp[1]
 
@@ -158,11 +158,10 @@ function getskipmat(he::HeAttributes)
                 global i += 1
 
                 tmp = [readline(io)]
-                tmp = split(tmp[1], ",")
+                tmp = split(tmp[1], he.sep)
 
                 global matXtra[i+he.hasColNames, :] = tmp[1:idxEndXtra]
 
-                # newLine = eval(Meta.parse(string("""rslt=replace($tmp[1], r"$(he.strMiss)|NA|MISSING"i => "NaN")""")))
                 newLine = eval(Meta.parse(string("""replace.($tmp[idxStartMat:end], r"$(he.strMiss)|NA|MISSING"i => "NaN")""")))
                 global mat[i, :] = parse.(he.matType, newLine)
             end

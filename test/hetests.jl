@@ -116,7 +116,7 @@ end;
 Helium.csv2he(csvFileName, fileName, Float64, hasColNames = false, strMiss = "x")
 rsltMat = Helium.readhe(fileName)
 println("Missing customization test 8: ",
-        @test isnan(rsltMat[1,1]) & isnan(rsltMat[2,1]))
+        @test isnan(rsltMat[1,1]) && isnan(rsltMat[2,1]))
 
 ######################################################################
 # TEST 9 Converting CSV to He: skipping option during CSV conversion #

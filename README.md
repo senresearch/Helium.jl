@@ -96,7 +96,7 @@ julia> Helium.readhe("~/Project/data/testFile.he")
 ```julia
 csv2he(csvFile::String, heFile::String, matType::DataType;
                 hasColNames::Bool=true, hasRowNames::Bool=false,
-                strMiss::String="na", skipCol::Int64=0)
+                strMiss::String="na", sep::String=",", skipCol::Int64=0)
 ```
 **Arguments**  
 
@@ -106,6 +106,7 @@ csv2he(csvFile::String, heFile::String, matType::DataType;
 - `hasColNames`: a boolean. If `true` (default: `true`) we assume that the CSV file includes the column names.    
 - `hasRowNames`: a boolean. If `true` (default:`false`) we assume that the CSV file includes the row names.
 - `strMiss`: a string in the CSV file that identifies missing elements in the matrix. By default "NA" and "missing" are considered as missing data and they will be mapped as `NaN` inside the matrix. The string `strMiss` represents an additional possibility to look for missing or NA element. It is not case sensitive.  
+- `sep`: a string delimiter that separates the elements. By defaults, the delimiter is a comma ",".
 - `skipCol`: the number of columns to skip before to start reading the matrix in the CSV file. By default, its value is 0. If its value is greater than zero then the skipped columns will be saved as supplemental data in the helium file.
 
 #### Example 2
@@ -236,14 +237,15 @@ julia> Helium.getsupp("~/Project/data/testFile.he")
 
 ```julia
 he2csv(heFile::String, csvFile::String;
-               strMiss::String="NaN", nameColRows::String="ID")
+               strMiss::String="NaN", nameColRows::String="ID", sep::String=",")
 ```
 **Arguments**  
 
 - `heFile`: a string that indicates the path of the helium `.he` file.   
 - `csvFile`:  a string that indicates the path of the CSV file.
 - `strMiss`: a string that will be used in the CSV file to indicates missing or NA elements in the matrix. By default "NaN" is used. It is case sensitive.   
-- `nameColRows`: a string that assigns a column name for the row names in the CSV file. By default, the name is "ID", if the data has row names. `nameColRows` is used only if there exists row names and column names in the helium file.
+- `nameColRows`: a string that assigns a column name for the row names in the CSV file. By default, the name is "ID", if the data has row names. `nameColRows` is used only if there exists row names and column names in the helium file.   
+- `sep`: a string delimiter that separates the elements. By defaults, the delimiter is a comma ",".  
 
 #### Example 6
 

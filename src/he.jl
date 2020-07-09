@@ -14,5 +14,6 @@ mutable struct HeInfo  <: HeAttributes
     hasColNames::Bool
     hasRowNames::Bool
     strMiss::String
+    sep::String
     skipCol::Int64
 end

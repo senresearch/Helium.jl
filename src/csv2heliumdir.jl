@@ -15,12 +15,12 @@ there are row names, set `hasRowNames = true`.
 
 function csv2hedir(csvFile::String, heFile::String, matType::DataType;
                 hasColNames::Bool=true, hasRowNames::Bool=false,
-                strMiss::String = "na", skipCol::Int64 =0)
+                strMiss::String = "na", sep=",", skipCol::Int64 =0)
 
     # HeInfo constructor
     he = HeInfo(abspath(csvFile), matType, 1, 1,
                 hasColNames, hasRowNames,
-                strMiss, skipCol)
+                strMiss, sep, skipCol)
 
     # Convert CSV to matrix
     mat, cNames, rNames, supp = csv2mat(he)
@@ -70,7 +70,7 @@ there are row names, set `hasRowNames = true`.
 
 function csv2hedir(csvFile::String, matType::DataType;
                 hasColNames::Bool=true, hasRowNames::Bool=false,
-                strMiss::String = "na", skipCol::Int64 =0)
+                strMiss::String = "na", sep=",", skipCol::Int64 =0)
 
     heFile = string(csvFile[1:end-3], "he")
 

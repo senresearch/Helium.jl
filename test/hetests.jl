@@ -118,9 +118,27 @@ rsltMat = Helium.readhe(fileName)
 println("Missing customization test 8: ",
         @test isnan(rsltMat[1,1]) && isnan(rsltMat[2,1]))
 
-######################################################################
-# TEST 9 Converting CSV to He: skipping option during CSV conversion #
-#####################################################################%
+#######################################################################
+# TEST 9 Converting CSV to He: separator option during CSV conversion #
+#######################################################################
+testmat = [
+        "col1"  "col2"  "col3"  "col4"
+           1.5       8      12      24
+             7      22      24      75
+]
+
+open(csvFileName, "w") do io
+        writedlm(io, testmat, ' ')
+end;
+
+Helium.csv2he(csvFileName, fileName, Float64, sep = " ")
+rsltMat = Helium.readhe(fileName)
+println("CSV to He with customized delimeter test 9: ",
+        @test rsltMat == testmat[2:end, :])
+
+#######################################################################
+# TEST 10 Converting CSV to He: skipping option during CSV conversion #
+#######################################################################
 testmat = [
      "ID1"    "Xtra1"    "X"    1.5      8      12     24
      "ID2"    "Xtra2"    "NA"   7.0      22     24     75
@@ -133,11 +151,11 @@ end;
 Helium.csv2he(csvFileName, fileName, Float64, hasColNames = false,
         hasRowNames = true, strMiss = "x", skipCol = 1)
 rsltMat = Helium.readhe(fileName)
-println("Skipping columns test 9: ",
+println("Skipping columns test 10: ",
          @test rsltMat[:,2:end] == convert(Array{Float64,2}, testmat[:, 4:end]))
 
 ###########################################################
-# TEST 10 Converting CSV to He: getting supplemental data #
+# TEST 11 Converting CSV to He: getting supplemental data #
 ###########################################################
 testmat = [
       "ID"     "var1" "var2"  "var3"  "var4"  "var5"  "var6"
@@ -152,11 +170,11 @@ end;
 Helium.csv2he(csvFileName, fileName,  Float64, hasRowNames = true,
                strMiss = "x", skipCol = 2)
 rsltMat = Helium.getsupp(fileName)
-println("Getting supplement test 10: ",
+println("Getting supplement test 11: ",
          @test rsltMat == convert(Array{String,2}, string.(testmat[:, 2:3])))
 
 #############################################################################
-# TEST 11 Converting CSV to He: getting supplemental data without row names #
+# TEST 12 Converting CSV to He: getting supplemental data without row names #
 #############################################################################
 testmat = [
          "var1" "var2"  "var3"  "var4"  "var5"  "var6"
@@ -170,13 +188,21 @@ end;
 
 Helium.csv2he(csvFileName, fileName,  Float64, strMiss = "x", skipCol = 2)
 rsltMat = Helium.getsupp(fileName)
-println("Getting supplement test 11 without row names: ",
+println("Getting supplement without row names test 12: ",
         @test rsltMat == convert(Array{String,2}, string.(testmat[:, 1:2])))
 
 ###########################################################
-# TEST 12 Converting He to CSV: getting supplemental data #
+# TEST 13 Converting He to CSV: getting supplemental data #
 ###########################################################
 Helium.he2csv( fileName, csvFileName, strMiss = "X")
 rsltMat = readdlm(csvFileName, ',')
-println("Converting He to CSV test 12: ",
+println("Converting He to CSV test 13: ",
          @test rsltMat == testmat)
+
+ ###########################################################
+ # TEST 14 Converting He to CSV: getting supplemental data #
+ ###########################################################
+ Helium.he2csv( fileName, csvFileName, strMiss = "X", sep = " ")
+ rsltMat = readdlm(csvFileName, ' ')
+ println("Converting He to CSV with customized delimiter test 14: ",
+          @test rsltMat == testmat)

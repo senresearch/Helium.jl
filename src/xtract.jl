@@ -48,7 +48,7 @@ function getmat(he::HeAttributes)
         else
             global colNames = [""]
         end
-
+        
         if he.hasRowNames
             while !eof(io)
                 tmp = [readline(io)]

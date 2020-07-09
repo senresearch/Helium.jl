@@ -74,7 +74,7 @@ function csv2mat(he::HeAttributes)
 
     # Get the number of columns
     frstRow = readline(he.fileName)
-    he.numCols = length(split(frstRow, ","))
+    he.numCols = length(split(frstRow, he.sep))
 
     # Get the number of rows
     global nRows = 0

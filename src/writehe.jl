@@ -1,4 +1,5 @@
 """
+
 **`Helium.writehe`** -*Function*.
 
     `Helium.writehe(matrix, source;
@@ -15,7 +16,6 @@ The first 56 bytes contains:
  if column names exists, if row names exists, number of column of supplement]
 
 """
-
 function writehe(mat, heFile::String;
                  colNames::Array{String,1} = [""],
                  rowNames::Array{String,1} = [""],

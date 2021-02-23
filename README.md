@@ -1,11 +1,14 @@
 # Helium.jl
 
-A Julia matrix serialization format with the following goals
+`Helium.jl` package proposes a tabular data serialization format with the following goals: light (i.e., on storage disk), fast (i.e., saving and loading times), and flexible(i.e., accommodating simplicity in metadata). Helium format is designed for numerical matrix-like data with metadata such as row names, column names, and extra columns of a different type.
 
-* Fast save and load times
-* Light storage on disk
+In some research fields, such as in omics data analysis, it remains common to read and write very large tabular data sets in CSV file format (> 10Gb) that embed matrix-like data. CSV format indeed offers numerous advantages. CSV files are easy to create. CSV format is human-readable. One can use almost any text editor to read it. It is easy to parse with most of the platforms. The inherent simplicity of the CSV format makes it a popular choice for a vast number of datasets.
+However, even if manipulating CSV files is straightforward, the CSV format may come at a price for large files. The CSV format is not memory efficient. Moreover, as the file size grows, load times can become impractical. The CSV format's nature makes it an excellent option for small datasets (~ < 2 Gb), but it is very inefficient for managing larger datasets (> 10Gb).
 
-It is still a common practice, in some fields, to generate very large tabular data sets (matrix-like) in CSV file format. Due to the inherent CSV files structure, it usually takes a very long time to load them, mainly due to the parsing process. Helium format offers an alternative to read and write those kinds of data set with a much faster IO processing.
+What makes Helium format light and fast reading/writing is that it is binary based. The Helium format is compatible with any OS and any endianness.
+
+The `Helium.jl` package permits reading and writing helium format and offers functions to convert Helium to CSV and vice versa.
+Conversion preserves all metadata, including row names, column names, and extra columns.
 
 ## Installation
 
@@ -38,10 +41,9 @@ Design of the Helium meta format
 CHUNK 5 ___ [SUPPLEMENT] (optional)
 ```
 
-The Helium format is compatible with any OS and any endianness.
 
 
-## Example
+## Examples
 
 Here are some simple examples of converting CSV files to Helium format with various arguments.
 

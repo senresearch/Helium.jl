@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Home · Helium.jl</title><link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Mono" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="assets/documenter.js"></script><script src="siteinfo.js"></script><script src="../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit">Helium.jl</span></div><form class="docs-search" action="search/"><input class="docs-search-query" id="documenter-search-query" name="q" type="text" placeholder="Search docs"/></form><ul class="docs-menu"><li class="is-active"><a class="tocitem" href>Home</a><ul class="internal"><li><a class="tocitem" href="#Installation"><span>Installation</span></a></li><li><a class="tocitem" href="#Usage"><span>Usage</span></a></li><li><a class="tocitem" href="#Examples"><span>Examples</span></a></li></ul></li><li><a class="tocitem" href="functionDoc/">Function Documentation</a></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><nav class="breadcrumb"><ul class="is-hidden-mobile"><li class="is-active"><a href>Home</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Home</a></li></ul></nav><div class="docs-right"><a class="docs-edit-link" href="https://github.com/senresearch/Helium.jl/blob/master/docs/src/index.md" title="Edit on GitHub"><span class="docs-icon fab"></span><span class="docs-label is-hidden-touch">Edit on GitHub</span></a><a class="docs-settings-button fas fa-cog" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-sidebar-button fa fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a></div></header><article class="content" id="documenter-page"><h1 id="Helium.jl"><a class="docs-heading-anchor" href="#Helium.jl">Helium.jl</a><a id="Helium.jl-1"></a><a class="docs-heading-anchor-permalink" href="#Helium.jl" title="Permalink"></a></h1><p><code>Helium.jl</code> package proposes a tabular data serialization format with the following goals: light (i.e., on storage disk), fast (i.e., saving and loading times), and flexible(i.e., accommodating simplicity in metadata). Helium format is designed for numerical matrix-like data with metadata such as row names, column names, and extra columns of a different type.</p><p>In some research fields, such as in omics data analysis, it remains common to read and write very large tabular data sets in CSV file format (&gt; 10Gb) that embed matrix-like data. CSV format indeed offers numerous advantages. CSV files are easy to create. CSV format is human-readable. One can use almost any text editor to read it. It is easy to parse with most of the platforms. The inherent simplicity of the CSV format makes it a popular choice for a vast number of datasets. However, even if manipulating CSV files is straightforward, the CSV format may come at a price for large files. The CSV format is not memory efficient. Moreover, as the file size grows, load times can become impractical. The CSV format&#39;s nature makes it an excellent option for small datasets (~ &lt; 2 Gb), but it is very inefficient for managing larger datasets (&gt; 10Gb).</p><p>What makes Helium format light and fast reading/writing is that it is binary based. The Helium format is compatible with any OS and any endianness.</p><p>The <code>Helium.jl</code> package permits reading and writing helium format and offers functions to convert Helium to CSV and vice versa. Conversion preserves all metadata, including row names, column names, and extra columns.</p><h2 id="Installation"><a class="docs-heading-anchor" href="#Installation">Installation</a><a id="Installation-1"></a><a class="docs-heading-anchor-permalink" href="#Installation" title="Permalink"></a></h2><p>In a Julia REPL, enter <code>pkg</code> mode (by pressing <code>]</code>) and run:</p><pre><code class="language-julia">pkg&gt;add Helium</code></pre><h2 id="Usage"><a class="docs-heading-anchor" href="#Usage">Usage</a><a id="Usage-1"></a><a class="docs-heading-anchor-permalink" href="#Usage" title="Permalink"></a></h2><p>The helium format is basically a binary file where we have compartmented all the potential following information:</p><pre><code class="language-none">Design of the Helium meta format  
+
+ CHUNK 1 ___ [NROWS NCOLS TYPE ENDIAN HASCOLNAMES HASROWNAMES NUMCOLSUPP]   
+        |   
+        |   
+ CHUNK 2 ___ [DATA]   
+        |   
+        |   
+ CHUNK 3 ___ [COLNAMES] (optional)  
+        |  
+        |   
+ CHUNK 4 ___ [ROWNAMES] (optional)
+        |  
+        |   
+CHUNK 5 ___ [SUPPLEMENT] (optional)</code></pre><h2 id="Examples"><a class="docs-heading-anchor" href="#Examples">Examples</a><a id="Examples-1"></a><a class="docs-heading-anchor-permalink" href="#Examples" title="Permalink"></a></h2><p>Here are some simple examples of converting CSV files to Helium format with various arguments.</p><h3 id="Write-and-read-helium-file"><a class="docs-heading-anchor" href="#Write-and-read-helium-file">Write and read helium file</a><a id="Write-and-read-helium-file-1"></a><a class="docs-heading-anchor-permalink" href="#Write-and-read-helium-file" title="Permalink"></a></h3><p>The function <code>writehe()</code> requires at least two arguments: the matrix and the file&#39;s path. And, the function <code>readhe()</code> requires only one argument: the file&#39;s path. It returns the matrix from the helium file.</p><pre><code class="language-julia">writehe(mat, heFile::String; colNames::Array{String,1} = [&quot;&quot;],
+         rowNames::Array{String,1} = [&quot;&quot;],
+         supplement::Array{String,2} = [&quot;&quot; &quot;&quot;])</code></pre><p><strong>Arguments</strong>  </p><ul><li><code>mat</code>:  data matrix.   </li><li><code>heFile</code>: a string that indicates the path of the helium <code>.he</code> file.   </li><li><code>colNames</code>: an array of strings that contains the names of the columns associated to the data matrix.    </li><li><code>rowNames</code>: an array of strings that contains the names of the rows associated to the data matrix.    </li><li><code>supplement</code>: a matrix of strings that is a supplemental information associated to the data matrix. Its number of rows is identical to the data matrix. It may include column names only if there exist column names associated to the data matrix.</li></ul><pre><code class="language-julia">readhe(heFile::String)</code></pre><p><strong>Arguments</strong>  </p><ul><li><code>heFile</code>: a string that indicates the path of the helium <code>.he</code> file.   </li></ul><h4 id="Example-1"><a class="docs-heading-anchor" href="#Example-1">Example 1</a><a id="Example-1-1"></a><a class="docs-heading-anchor-permalink" href="#Example-1" title="Permalink"></a></h4><pre><code class="language-julia">julia&gt; using Helium  
+
+julia&gt; toymat = [1.5 8 12 24;7 22 24 70]
+2×4 Array{Float64,2}:
+ 1.5   8.0  12.0  24.0
+ 7.0  22.0  24.0  70.0
+
+julia&gt; Helium.writehe(toymat, &quot;~/Project/data/testFile.he&quot;)
+
+julia&gt; Helium.readhe(&quot;~/Project/data/testFile.he&quot;)       
+2×4 Array{Float64,2}:
+ 1.5   8.0  12.0  24.0
+ 7.0  22.0  24.0  70.0
+</code></pre><h3 id="Convert-a-CSV-file-into-Helium-file"><a class="docs-heading-anchor" href="#Convert-a-CSV-file-into-Helium-file">Convert a CSV file into Helium file</a><a id="Convert-a-CSV-file-into-Helium-file-1"></a><a class="docs-heading-anchor-permalink" href="#Convert-a-CSV-file-into-Helium-file" title="Permalink"></a></h3><p><code>Helium.csv2he</code> converts a CSV file that contains a matrix like data into the Helium format.</p><pre><code class="language-julia">csv2he(csvFile::String, heFile::String, matType::DataType;
+                hasColNames::Bool=true, hasRowNames::Bool=false,
+                strMiss::String=&quot;na&quot;, sep::String=&quot;,&quot;, skipCol::Int64=0)</code></pre><p><strong>Arguments</strong>  </p><ul><li><code>csvFile</code>:  a string that indicates the path of the CSV file.   </li><li><code>heFile</code>: a string that indicates the path of the helium <code>.he</code> file.   </li><li><code>matType</code>: the type of data (<em>e.g.,</em> <code>Float64</code>,<code>Int64</code>,...).   </li><li><code>hasColNames</code>: a boolean. If <code>true</code> (default: <code>true</code>) we assume that the CSV file includes the column names.    </li><li><code>hasRowNames</code>: a boolean. If <code>true</code> (default:<code>false</code>) we assume that the CSV file includes the row names.</li><li><code>strMiss</code>: a string in the CSV file that identifies missing elements in the matrix. By default &quot;NA&quot; and &quot;missing&quot; are considered as missing data and they will be mapped as <code>NaN</code> inside the matrix. The string <code>strMiss</code> represents an additional possibility to look for missing or NA element. It is not case sensitive.  </li><li><code>sep</code>: a string delimiter that separates the elements. By defaults, the delimiter is a comma &quot;,&quot;.</li><li><code>skipCol</code>: the number of columns to skip before to start reading the matrix in the CSV file. By default, its value is 0. If its value is greater than zero then the skipped columns will be saved as supplemental data in the helium file.</li></ul><h4 id="Example-2"><a class="docs-heading-anchor" href="#Example-2">Example 2</a><a id="Example-2-1"></a><a class="docs-heading-anchor-permalink" href="#Example-2" title="Permalink"></a></h4><p>In this example, we consider a simple CSV file without column names and without row names. Our CSV file, for instance, looks like the following:</p><blockquote><p>1.5,3,12,24   </p></blockquote><p>7,22,24,70</p><pre><code class="language-julia">julia&gt; using Helium
+
+julia&gt; Helium.csv2he(&quot;~/Project/data/testFile.csv&quot;, &quot;~/Project/data/testFile.he&quot;, Float64,
+       hasColNames = false)
+
+julia&gt; Helium.readhe(&quot;~/Project/data/testFile.he&quot;)       
+2×4 Array{Float64,2}:
+ 1.5   3.0  12.0  24.0
+ 7.0  22.0  24.0  70.0
+</code></pre><h4 id="Example-3"><a class="docs-heading-anchor" href="#Example-3">Example 3</a><a id="Example-3-1"></a><a class="docs-heading-anchor-permalink" href="#Example-3" title="Permalink"></a></h4><p>In the next example, we consider a CSV file that includes the column names and the row names. Here what the CSV file looks like in our example:</p><blockquote><p>ID,col1,col2,col3,col4  </p></blockquote><p>1,1.5,8,12,24      2,7,22,24,70</p><pre><code class="language-julia">julia&gt; using Helium
+
+julia&gt; Helium.csv2he(&quot;~/Project/data/testFile.csv&quot;, &quot;~/Project/data/testFile.he&quot;, Float64,
+       hasRowNames = true)
+
+julia&gt; Helium.readhe(&quot;~/Project/data/testFile.he&quot;)
+2×4 Array{Float64,2}:
+ 1.5   8.0  12.0  24.0
+ 7.0  22.0  24.0  70.0      
+</code></pre><p>During the conversion to He format, the variables names and the sample IDs are embedded if the helium format file. Once the helium file is created, it is also possible to get the column and row names by using the functions <code>getcolnames()</code> and <code>getrownames()</code>. Both functions take the file&#39;s path as an argument and return an <code>Array{String, 1}</code>.  </p><pre><code class="language-julia">
+julia&gt; Helium.getcolnames(&quot;~/Project/data/testFile.he&quot;)   
+4-element Array{String,1}:
+ &quot;col1&quot;
+ &quot;col2&quot;
+ &quot;col3&quot;
+ &quot;col4&quot;
+
+julia&gt; Helium.getrownames(&quot;~/Project/data/testFile.he&quot;)   
+2-element Array{String,1}:
+ &quot;1&quot;
+ &quot;2&quot;
+</code></pre><h4 id="Example-4"><a class="docs-heading-anchor" href="#Example-4">Example 4</a><a id="Example-4-1"></a><a class="docs-heading-anchor-permalink" href="#Example-4" title="Permalink"></a></h4><p>Next, we give an example where we specify what string corresponds to a missing data. By default, &quot;NA&quot;s and &quot;NaN&quot;s are checked in as <code>NaN</code> in our matrix of float or integer, but we can also add a customized string representing missing data. In our CSV file, we consider that &quot;X&quot; is a missing data:</p><blockquote><p>1.5,8,12,X,24   </p></blockquote><p>7,22,24,NA,70</p><pre><code class="language-julia">julia&gt; using Helium
+
+julia&gt; Helium.csv2he(&quot;~/Project/data/testFile.csv&quot;, &quot;~/Project/data/testFile.he&quot;, Float64,
+       hasColNames = false,  strMiss = &quot;X&quot;)
+
+julia&gt; Helium.readhe(&quot;~/Project/data/testFile.he&quot;)   
+2×5 Array{Float64,2}:
+ 1.5   8.0  12.0  NaN  24.0
+ 7.0  22.0  24.0  NaN  70.0    </code></pre><h4 id="Example-5"><a class="docs-heading-anchor" href="#Example-5">Example 5</a><a id="Example-5-1"></a><a class="docs-heading-anchor-permalink" href="#Example-5" title="Permalink"></a></h4><p>The argument <code>skipCol</code> gives the option to skip an arbitrary number of columns before reading the matrix data. The skipped columns are preserved as supplemental <code>Array{String,2}</code> built-in the Helium file. To obtain this supplemental data, we use the function <code>getsupp()</code>. Let consider the following CSV file as an example, where we will skip 2 columns after the sample IDs:</p><blockquote><p>ID,var1,var2,var3,var4,var5  </p></blockquote><p>ID1,Xtra1,3,1.5,X,12      ID2,Xtra2,10,7.0,22,70</p><pre><code class="language-julia">julia&gt; using Helium
+
+julia&gt; Helium.csv2he(&quot;~/Project/data/testFile.csv&quot;, &quot;~/Project/data/testFile.he&quot;, Float64,
+       hasRowNames = true, strMiss = &quot;x&quot;, skipCol = 2)
+
+julia&gt; Helium.readhe(&quot;~/Project/data/testFile.he&quot;)   
+2×3 Array{Float64,2}:
+ 1.5   NaN  12.0  
+ 7.0  22.0  70.0  
+
+julia&gt; Helium.getcolnames(&quot;~/Project/data/testFile.he&quot;)   
+3-element Array{String,1}:
+  &quot;var3&quot;
+  &quot;var4&quot;
+  &quot;var5&quot;
+
+julia&gt; Helium.getrownames(&quot;~/Project/data/testFile.he&quot;)   
+2-element Array{String,1}:
+  &quot;ID1&quot;
+  &quot;ID2&quot;
+
+julia&gt; Helium.getsupp(&quot;~/Project/data/testFile.he&quot;)   
+3×2 Array{String,2}:
+ &quot;var1&quot;   &quot;var2&quot;
+ &quot;Xtra1&quot;  &quot;3&quot;
+ &quot;Xtra2&quot;  &quot;10&quot;
+  ```
+
+### Convert a Helium file into a CSV file
+`Helium.he2csv` converts a Helium file into a CSV file.
+</code></pre><p>julia he2csv(heFile::String, csvFile::String;                strMiss::String=&quot;NaN&quot;, nameColRows::String=&quot;ID&quot;, sep::String=&quot;,&quot;)</p><pre><code class="language-none">**Arguments**  
+
+- `heFile`: a string that indicates the path of the helium `.he` file.   
+- `csvFile`:  a string that indicates the path of the CSV file.
+- `strMiss`: a string that will be used in the CSV file to indicates missing or NA elements in the matrix. By default &quot;NaN&quot; is used. It is case sensitive.   
+- `nameColRows`: a string that assigns a column name for the row names in the CSV file. By default, the name is &quot;ID&quot;, if the data has row names. `nameColRows` is used only if there exists row names and column names in the helium file.   
+- `sep`: a string delimiter that separates the elements. By defaults, the delimiter is a comma &quot;,&quot;.  
+
+#### Example 6
+
+In this example, let suppose that the file *testFile.he* contains a data matrix with row and column names. By using the functions `readhe`, `getrownames`, `getcolnames` we can check their contents. By using the function `he2csv`, we are able to convert the helium file into a CSV file.
+</code></pre><p>julia julia&gt; using Helium</p><p>julia&gt; Helium.readhe(&quot;~/Project/data/testFile.he&quot;)    2×5 Array{Float64,2}:  NaN   3.0  12.0  7.0  22.0  70.0</p><p>julia&gt; Helium.getcolnames(&quot;~/Project/data/testFile.he&quot;)    4-element Array{String,1}:   &quot;var1&quot;   &quot;var2&quot;   &quot;var3&quot;</p><p>julia&gt; Helium.getrownames(&quot;~/Project/data/testFile.he&quot;)    2-element Array{String,1}:   &quot;ID1&quot;   &quot;ID2&quot;</p><p>julia&gt; Helium.he2csv(&quot;~/Project/data/testFile.he&quot;, &quot;~/Project/data/testFile.csv&quot;, strMiss = &quot;X&quot;)</p><p>``` Our CSV file would look like the following:</p><blockquote><p>ID,var1,var2,var3   </p></blockquote><p>ID1,X,3.0,12.0    ID2,7.0,22.0,70.0</p></article><nav class="docs-footer"><a class="docs-footer-nextpage" href="functionDoc/">Function Documentation »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Tuesday 23 February 2021 06:59">Tuesday 23 February 2021</span>. Using Julia version 1.5.3.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>

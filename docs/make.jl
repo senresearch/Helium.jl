@@ -12,7 +12,8 @@ makedocs(
          modules  = [Helium],
          pages=[
                 "Home" => "index.md",
-                "Function Documentation" => "functionDoc.md"
+                "Getting Started" => "gettingStarted.md"
+                "Types and Functions" => "functionDoc.md"
                ])
 deploydocs(;
     repo="github.com/senresearch/Helium.jl",

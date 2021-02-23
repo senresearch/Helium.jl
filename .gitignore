@@ -15,3 +15,6 @@
 *~
 *.pdf
 *checkpoint.ipynb
+*/.ipynb_checkpoints/
+.ipynb_checkpoints/
+README2.md

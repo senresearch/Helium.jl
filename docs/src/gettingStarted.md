@@ -2,11 +2,11 @@
 
 Here are some simple examples of converting CSV files to Helium format with various arguments.
 
-## Write and read helium file
+## Write and Read Helium file
 
 ### Key function
 
-The function `writehe()` requires at least two arguments: the matrix and the file's path. And, the function `readhe()` requires only one argument: the file's path. It returns the matrix from the helium file.
+The function `writehe()` requires at least two arguments: the matrix and the file's path. And, the function `readhe()` requires only one argument: the file's path. It returns the matrix from the Helium file.
 
 ```julia
 writehe(mat, heFile::String; colNames::Array{String,1} = [""],
@@ -50,7 +50,7 @@ julia> Helium.readhe("~/Project/data/testFile.he")
 
 ```
 
-## Convert a CSV file into Helium file Key function
+## Convert CSV to Helium format Key function
 `Helium.csv2he` converts a CSV file that contains a matrix like data into the Helium format.
 
 ```julia
@@ -69,12 +69,12 @@ csv2he(csvFile::String, heFile::String, matType::DataType;
 - `sep`: a string delimiter that separates the elements. By defaults, the delimiter is a comma ",".
 - `skipCol`: the number of columns to skip before to start reading the matrix in the CSV file. By default, its value is 0. If its value is greater than zero then the skipped columns will be saved as supplemental data in the helium file.
 
-## Convert a CSV file without metadata into Helium format
+## CSV to Helium: no metadata
 
 In this example, we consider a simple CSV file without column names and without row names. Our CSV file, for instance, looks like the following:
 
 > 1.5,3,12,24   
-7,22,24,70
+> 7,22,24,70
 
 
 
@@ -91,13 +91,13 @@ julia> Helium.readhe("~/Project/data/testFile.he")
 
 ```
 
-## Convert a CSV file with row and column names into Helium format
+## CSV to Helium: with row and column names
 
 In the next example, we consider a CSV file that includes the column names and the row names. Here what the CSV file looks like in our example:
 
-> ID,col1,col2,col3,col4  
-  1,1.5,8,12,24   
-  2,7,22,24,70
+> ID,col1,col2,col3,col4   
+>  1,1.5,8,12,24   
+>  2,7,22,24,70   
 
 
 
@@ -132,12 +132,12 @@ julia> Helium.getrownames("~/Project/data/testFile.he")
 
 ```
 
-## Convert a CSV file with missing data into Helium format
+## CSV to Helium: missing data
 
 Next, we give an example where we specify what string corresponds to a missing data. By default, "NA"s and "NaN"s are checked in as `NaN` in our matrix of float or integer, but we can also add a customized string representing missing data. In our CSV file, we consider that "X" is a missing data:
 
 > 1.5,8,12,X,24   
-  7,22,24,NA,70
+>  7,22,24,NA,70
 
 
 
@@ -153,13 +153,13 @@ julia> Helium.readhe("~/Project/data/testFile.he")
  7.0  22.0  24.0  NaN  70.0    
 ```
 
-## Convert a CSV file with extra column into Helium format
+## CSV to Helium: extra columns
 
 The argument `skipCol` gives the option to skip an arbitrary number of columns before reading the matrix data. The skipped columns are preserved as supplemental `Array{String,2}` built-in the Helium file. To obtain this supplemental data, we use the function `getsupp()`. Let consider the following CSV file as an example, where we will skip 2 columns after the sample IDs:
 
 > ID,var1,var2,var3,var4,var5  
-  ID1,Xtra1,3,1.5,X,12   
-  ID2,Xtra2,10,7.0,22,70
+> ID1,Xtra1,3,1.5,X,12   
+> ID2,Xtra2,10,7.0,22,70
 
 
 
@@ -167,32 +167,33 @@ The argument `skipCol` gives the option to skip an arbitrary number of columns b
 julia> using Helium
 
 julia> Helium.csv2he("~/Project/data/testFile.csv", "~/Project/data/testFile.he", Float64,
-       hasRowNames = true, strMiss = "x", skipCol = 2)
+     hasRowNames = true, strMiss = "x", skipCol = 2)
 
 julia> Helium.readhe("~/Project/data/testFile.he")   
 2×3 Array{Float64,2}:
- 1.5   NaN  12.0  
- 7.0  22.0  70.0  
+1.5   NaN  12.0  
+7.0  22.0  70.0  
 
 julia> Helium.getcolnames("~/Project/data/testFile.he")   
 3-element Array{String,1}:
-  "var3"
-  "var4"
-  "var5"
+"var3"
+"var4"
+"var5"
 
 julia> Helium.getrownames("~/Project/data/testFile.he")   
 2-element Array{String,1}:
-  "ID1"
-  "ID2"
+"ID1"
+"ID2"
 
 julia> Helium.getsupp("~/Project/data/testFile.he")   
 3×2 Array{String,2}:
- "var1"   "var2"
- "Xtra1"  "3"
- "Xtra2"  "10"
-  ```
+"var1"   "var2"
+"Xtra1"  "3"
+"Xtra2"  "10"
 
-## Convert a Helium file into a CSV file
+```
+
+## Convert Helium into a CSV format
 
 ### Key function
 
@@ -241,5 +242,5 @@ julia> Helium.he2csv("~/Project/data/testFile.he", "~/Project/data/testFile.csv"
 Our CSV file would look like the following:
 
 > ID,var1,var2,var3   
-ID1,X,3.0,12.0   
-ID2,7.0,22.0,70.0
+> ID1,X,3.0,12.0   
+> ID2,7.0,22.0,70.0

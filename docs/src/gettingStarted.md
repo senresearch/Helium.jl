@@ -73,16 +73,10 @@ csv2he(csvFile::String, heFile::String, matType::DataType;
 
 In this example, we consider a simple CSV file without column names and without row names. Our CSV file, for instance, looks like the following:
 
-> 1.5,3,12,24 <br>  
-> 7,22,24,70
-
 ```text
 1.5,3,12,24
 7,22,24,70
 ```
-
-
-
 
 
 ```julia
@@ -102,10 +96,11 @@ julia> Helium.readhe("~/Project/data/testFile.he")
 
 In the next example, we consider a CSV file that includes the column names and the row names. Here what the CSV file looks like in our example:
 
-> ID,col1,col2,col3,col4   
->  1,1.5,8,12,24   
->  2,7,22,24,70   
-
+```text
+ID,col1,col2,col3,col4   
+1,1.5,8,12,24   
+2,7,22,24,70   
+```
 
 
 ```julia
@@ -143,9 +138,10 @@ julia> Helium.getrownames("~/Project/data/testFile.he")
 
 Next, we give an example where we specify what string corresponds to a missing data. By default, "NA"s and "NaN"s are checked in as `NaN` in our matrix of float or integer, but we can also add a customized string representing missing data. In our CSV file, we consider that "X" is a missing data:
 
-> 1.5,8,12,X,24   
->  7,22,24,NA,70
-
+```text
+1.5,8,12,X,24   
+7,22,24,NA,70
+```
 
 
 ```julia
@@ -164,10 +160,11 @@ julia> Helium.readhe("~/Project/data/testFile.he")
 
 The argument `skipCol` gives the option to skip an arbitrary number of columns before reading the matrix data. The skipped columns are preserved as supplemental `Array{String,2}` built-in the Helium file. To obtain this supplemental data, we use the function `getsupp()`. Let consider the following CSV file as an example, where we will skip 2 columns after the sample IDs:
 
-> ID,var1,var2,var3,var4,var5  
-> ID1,Xtra1,3,1.5,X,12   
-> ID2,Xtra2,10,7.0,22,70
-
+```text
+ID,var1,var2,var3,var4,var5  
+ID1,Xtra1,3,1.5,X,12   
+ID2,Xtra2,10,7.0,22,70
+```
 
 
 ```julia
@@ -248,6 +245,8 @@ julia> Helium.he2csv("~/Project/data/testFile.he", "~/Project/data/testFile.csv"
 ```
 Our CSV file would look like the following:
 
-> ID,var1,var2,var3   
-> ID1,X,3.0,12.0   
-> ID2,7.0,22.0,70.0
+```text
+ID,var1,var2,var3   
+ID1,X,3.0,12.0   
+ID2,7.0,22.0,70.0
+```

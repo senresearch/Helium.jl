@@ -12,7 +12,7 @@ makedocs(
          modules  = [Helium],
          pages=[
                 "Home" => "index.md",
-                "Getting Started" => "gettingStarted.md"
+                "Getting Started" => "gettingStarted.md",
                 "Types and Functions" => "functionDoc.md"
                ])
 deploydocs(;

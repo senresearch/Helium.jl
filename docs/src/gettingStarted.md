@@ -50,7 +50,7 @@ julia> Helium.readhe("~/Project/data/testFile.he")
 
 ```
 
-## Convert CSV to Helium format Key function
+## CSV to Helium: key function
 `Helium.csv2he` converts a CSV file that contains a matrix like data into the Helium format.
 
 ```julia

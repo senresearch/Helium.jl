@@ -33,17 +33,5 @@ export getskipmat, getmat
 include("helium2csv.jl")
 export he2csv
 
-include("writehedir.jl")
-export writehedir
-
-include("readhedir.jl")
-export readhedir, getcolnamesdir, getrownamesdir, getsuppdir
-
-include("csv2heliumdir.jl")
-export csv2hedir
-
-
-
-
 
 end # module

@@ -1,9 +1,9 @@
 """
 **`Helium.csv2he`** -*Function*.
 
-    `Helium.csv2he(source, outputFile, DataType; hasColNames::Bool=true,
+    Helium.csv2he(source, outputFile, DataType; hasColNames::Bool=true,
                    hasRowNames::Bool=false, strMiss::String="na",
-                   sep::String =",", skipCol::Int64=0)` => `file`
+                   sep::String =",", skipCol::Int64=0) => file
 
 Convert a CSV file that contains a matrix into the Helium binary file format.
 The function first evaluate the size of the matrix, then read the data and save

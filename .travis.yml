@@ -23,6 +23,7 @@ jobs:
       script: julia --color=yes --project=docs -e '
           using Pkg;
           Pkg.develop(PackageSpec(path=pwd()));
+          Pkg.add("Documenter")
           Pkg.instantiate();
           include("docs/make.jl");'
       after_success: skip

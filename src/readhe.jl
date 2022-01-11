@@ -35,6 +35,20 @@ function readhe(heFile::String)
                 mat .= dictEndian[hostendian].(mat)
         end
 
+        # Check if dimension of array greater than 2
+        if matInfo.hascolnames
+                # Read COL NAMES
+                cNames = getcolnames(heFile)
+            
+                if (length(cNames) == 1) & (occursin(r"(?i)@nD-matrix!", cNames[1]))
+                        # Get dimensions
+                        vColName = split(cNames[1], "_")
+                        vDim = parse.(Int64, vColName[2:end])
+
+                        mat = reshape(mat, (vDim...,));
+                end
+        end
+
         return mat
 end
 

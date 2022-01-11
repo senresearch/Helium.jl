@@ -206,3 +206,12 @@ println("Converting He to CSV test 13: ",
  rsltMat = readdlm(csvFileName, ' ')
  println("Converting He to CSV with customized delimiter test 14: ",
           @test rsltMat == testmat)
+
+ ###############################################################
+ # TEST 15 Writing/Reading array with dimension greater than 2 #
+ ###############################################################
+ dim4Testmat = rand(1,2,3,4);
+ Helium.writehe(dim4Testmat, fileName);
+ rsltMat = Helium.readhe(fileName);
+ println("Writing/Reading array with dimension greater than 2 test 15: ",
+          @test rsltMat == dim4Testmat)          

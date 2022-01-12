@@ -3,7 +3,7 @@
 *A fast and flexible Julia tabular data serialization format.*
 
 [![Stable](https://img.shields.io/badge/docs-stable-blue.svg)](https://senresearch.github.io/Helium.jl/stable)
-[![Build Status](https://travis-ci.com/senresearch/Helium.jl.svg?branch=master)](https://travis-ci.com/github/senresearch/Helium.jl)
+[![CI](https://github.com/senresearch/Helium.jl/actions/workflows/ci.yml/badge.svg)](https://github.com/senresearch/Helium.jl/actions/workflows/ci.yml)
 [![Coverage](https://codecov.io/gh/senresearch/Helium.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/senresearch/Helium.jl)
 
 

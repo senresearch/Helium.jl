@@ -33,6 +33,21 @@ function writehe(mat, heFile::String;
       error("Path incorrect, check directory!!!")
     end
 
+    # Check if dimension of mat greater than 2
+    if (length(size(mat)) > 2)
+      matSize = size(mat)
+      lenSize = length(matSize)
+      # Create an arbitrary name for the vectorized matrix
+      # Name includes information about dimensions
+      colNames  = chop(join(string.([matSize[dim] for dim in 1:lenSize], "_")))
+      colNames  = [join(["@nD-matrix!", colNames], "_")] 
+
+      # Vectorize
+      mat = reshape(mat, length(mat), 1)
+    end
+
+
+
     # Check for row and column names
     hascolnames = colNames[1] != ""
     hasrownames = rowNames[1] != ""

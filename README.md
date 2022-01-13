@@ -4,7 +4,7 @@
 
 [![Stable](https://img.shields.io/badge/docs-stable-blue.svg)](https://senresearch.github.io/Helium.jl/stable)
 [![CI](https://github.com/senresearch/Helium.jl/actions/workflows/ci.yml/badge.svg)](https://github.com/senresearch/Helium.jl/actions/workflows/ci.yml)
-[![Coverage](https://codecov.io/gh/senresearch/Helium.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/senresearch/Helium.jl)
+[![Coverage](https://codecov.io/gh/senresearch/Helium.jl/branch/main/graph/badge.svg)](https://codecov.io/gh/senresearch/Helium.jl)
 
 
 `Helium.jl` package proposes a tabular data serialization format with the following goals: light (i.e., on storage disk), fast (i.e., saving and loading times), and flexible(i.e., accommodating simplicity in metadata). Helium format is designed for numerical matrix-like data with metadata such as row names, column names, and extra columns of a different type. The Helium format is compatible with any OS and any endianness.

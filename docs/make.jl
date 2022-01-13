@@ -8,7 +8,7 @@ const dst = "https://senresearch.github.io/Helium.jl/stable"
 
 makedocs(
          sitename = "Helium.jl",
-         authors = "Gregory Farage",
+         authors = "Gregory Farage, Saunak Sen",
          modules  = [Helium],
          pages=[
                 "Home" => "index.md",

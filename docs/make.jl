@@ -17,5 +17,6 @@ makedocs(
                ])
 deploydocs(;
     repo="github.com/senresearch/Helium.jl",
-    devbranch= "main"
+    devbranch= "main",
+    devurl = "stable"
 )

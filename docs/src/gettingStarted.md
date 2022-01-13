@@ -30,7 +30,7 @@ readhe(heFile::String)
 
 - `heFile`: a string that indicates the path of the helium `.he` file.   
 
-### Example
+### Examples
 
 
 ```julia
@@ -47,6 +47,28 @@ julia> Helium.readhe("~/Project/data/testFile.he")
 2×4 Array{Float64,2}:
  1.5   8.0  12.0  24.0
  7.0  22.0  24.0  70.0
+
+julia> toymat = [1.5 8; 12 24;;;7 22; 24 70]
+2×2×2 Array{Float64, 3}:
+[:, :, 1] =
+  1.5   8.0
+ 12.0  24.0
+
+[:, :, 2] =
+  7.0  22.0
+ 24.0  70.0
+
+julia> Helium.writehe(toymat, "~/Project/data/testFile.he")
+
+julia> Helium.readhe("~/Project/data/testFile.he")       
+2×2×2 Array{Float64, 3}:
+[:, :, 1] =
+  1.5   8.0
+ 12.0  24.0
+
+[:, :, 2] =
+  7.0  22.0
+ 24.0  70.0
 
 ```
 
